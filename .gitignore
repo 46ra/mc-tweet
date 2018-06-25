@@ -1,0 +1,14 @@
+
+corpus\.csv
+
+__pycache__/
+
+log-1\.txt
+
+log-2\.txt
+
+frequency\.db
+
+tokens\.txt
+
+tweets\.csv
