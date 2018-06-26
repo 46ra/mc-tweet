@@ -16,15 +16,14 @@ if __name__ == '__main__':
 
     tweets = df['text']
 
-    replyTo = r'@[\w]+'
+    reply_to = r'@[\w]+'
     url = r'https?://[\w/:%#\$&\?\(\)~\.=\+\-]+'
-    for deletedRe in [replyTo, url]:
-        tweets = tweets.map(lambda s: re.sub(deletedRe, ' ', s))
+    for deleted in [reply_to, url]:
+        tweets = tweets.map(lambda s: re.sub(deleted, ' ', s))
 
     pd.DataFrame({'text': pd.Series(tweets)}).to_csv('corpus.csv')
 
     # corpus to database
-    # jumanpp = Jumanpp()
     tagger = MeCab.Tagger("-O chasen -d /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd")
     tagger.parse('')
 
