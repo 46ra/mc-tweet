@@ -1,6 +1,9 @@
 import sqlite3
 from share import begin, end
 
+def is_ascii(c):
+    return ord(c) < 128
+
 def main(n=99, init=None):
     conn = sqlite3.connect('frequency.db')
     curs = conn.cursor()
@@ -17,11 +20,14 @@ def main(n=99, init=None):
     for i in range(n):
         try:
             curs.execute(f'select * from stocks where word0 = "{w0}" and word1 = "{w1}" order by random() limit 1')
-            [row] = curs.fetchall()
-            if row[2] == end:
+            [[_, _, w]] = curs.fetchall()
+            if w == end:
                 break
-            sentence += row[2]
-            w0, w1 = w1, row[2]
+            tail = sentence[-1]
+            head = w[0]
+            space = ' ' if is_ascii(tail) and is_ascii(head) and tail not in '-' and head not in ',.-' else ''
+            sentence += space + w
+            w0, w1 = w1, w
         except Exception as e:
             print(e)
             break
